@@ -8,6 +8,13 @@ class Busquedas {
         // TODO: leer DB si existe
     }
 
+    get paramsMaptiler() {
+        return {
+            key: 'Gmp3jysz1OHeA0E8iEez',
+            language: 'es',
+            limit: 5,
+        };
+    }
     async ciudad(lugar = '') {
         maptilerClient.config.apiKey = 'Gmp3jysz1OHeA0E8iEez';
 
@@ -24,16 +31,11 @@ class Busquedas {
 
             const instance = axios.create({
                 baseURL: `https://api.maptiler.com/geocoding/ ${lugar}.json`,
-                params: {
-                    key: 'Gmp3jysz1OHeA0E8iEez',
-                    language: 'es',
-                    limit: 5,
-                },
+                params: this.paramsMaptiler,
             });
             const resp = await instance.get();
             console.log(resp.data);
-            // const resp = await axios.get('');
-            // console.log(resp.data);
+
             //return []; //retornar un array con los lugares que coincidan con lugar.
         } catch (error) {
             return [];

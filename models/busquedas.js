@@ -16,7 +16,7 @@ class Busquedas {
     };
   }
   async ciudad(lugar = '') {
-    maptilerClient.config.apiKey = 'Gmp3jysz1OHeA0E8iEez';
+    //maptilerClient.config.apiKey = '';
 
     // petición http
     //console.log('Ciudad escrita: ', lugar)

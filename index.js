@@ -1,6 +1,11 @@
 require('dotenv').config();
 
-const { menuPrincipal, pausa, readInput } = require('./helpers/inquirer');
+const {
+  menuPrincipal,
+  pausa,
+  readInput,
+  listadoLugares,
+} = require('./helpers/inquirer');
 const Busquedas = require('./models/busquedas');
 
 //console.log(process.env); //Gracias a dotenv se cargan las variables de entorno del archivo .env
@@ -13,21 +18,25 @@ const main = async () => {
     switch (opt) {
       case 1:
         // Mostrar mensaje
-        let lugar = await readInput('Ciudad: ');
-        await busquedas.ciudad(lugar);
+        let lugarBuscar = await readInput('Ciudad: ');
 
         // Buscar los lugares
-
+        const lugares = await busquedas.ciudad(lugarBuscar);
+        // console.log(lugares);
         // Seleccionar el lugar
+        const id = await listadoLugares(lugares);
+        //console.log({ id });
 
+        const lugarSel = lugares.find((l) => l.id === id);
+        console.log(lugarSel);
         // Clima
 
         // Mostrar resultados
 
         console.log('\nInformación de la ciudad\n'.green);
-        console.log('Ciudad:');
-        console.log('Lat:');
-        console.log('Lng:');
+        console.log('Ciudad:', lugarSel.nombre);
+        console.log('Lat:', lugarSel.lat);
+        console.log('Lng:', lugarSel.lng);
         console.log('Temperatura:');
         console.log('Mínima:');
         console.log('Máxima');

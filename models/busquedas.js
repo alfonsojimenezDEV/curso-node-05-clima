@@ -69,20 +69,21 @@ class Busquedas {
       const { list } = resp.data;
       // console.log(list[0]);s
 
-      return list.map((el) => ({
-        fec: new Date(el.dt),
-        temp: el.main.temp,
-        min: el.main.temp_min,
-        max: el.main.temp_max,
-        desc: el.weather[0]['description'],
-      }));
+      return {
+        fec: new Date(list[0].dt_txt),
+        temp: list[0].main.temp,
+        min: list[0].main.temp_min,
+        max: list[0].main.temp_max,
+        desc: list[0].weather[0]['description'],
+      };
 
-      // return {
-      //   desc: '',
-      //   min: '',
-      //   max: '',
-      //   temp: '',
-      // };
+      // return list.map((el) => ({
+      //   fec: new Date(el.dt),
+      //   temp: el.main.temp,
+      //   min: el.main.temp_min,
+      //   max: el.main.temp_max,
+      //   desc: el.weather[0]['description'],
+      // }));
     } catch (error) {
       console.log(error);
     }

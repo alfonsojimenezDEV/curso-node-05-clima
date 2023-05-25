@@ -13,7 +13,7 @@ const opciones = [
       },
       {
         value: 2,
-        name: `${'2.'.green} Clima`,
+        name: `${'2.'.green} Historial`,
       },
       {
         value: 0,

@@ -1,8 +1,11 @@
+const fs = require('fs');
+
 const axios = require('axios');
 const maptilerClient = require('@maptiler/client');
 
 class Busquedas {
-  historial = ['Madrid', 'Lucena', 'París'];
+  historial = [];
+  dbPath = './db/database.json';
 
   constructor() {
     // TODO: leer DB si existe
@@ -88,6 +91,25 @@ class Busquedas {
       console.log(error);
     }
   }
+
+  agregarHistorial(lugar = '') {
+    // Prevenir repeticiones del lugar
+    if (this.historial.includes(lugar.toLocaleLowerCase())) return;
+
+    // Almacenar en Array
+    this.historial.unshift(lugar.toLocaleLowerCase());
+    // Guardar en DB o archivo de texto que actuará como DB
+    this.guardarDB();
+  }
+
+  guardarDB() {
+    const payload = {
+      historial: this.historial,
+    };
+    fs.writeFileSync(this.dbPath, JSON.stringify(payload));
+  }
+
+  leerDB() {}
 }
 
 module.exports = Busquedas;

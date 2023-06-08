@@ -9,8 +9,16 @@ class Busquedas {
 
   constructor() {
     // TODO: leer DB si existe
+    this.leerDB();
   }
 
+  get historialCapitalizado() {
+    return this.historial.map((lugar) => {
+      let palabras = lugar.trim().split(' ');
+      palabras = palabras.map((p) => p[0].toUpperCase() + p.substring(1));
+      return palabras.join(' ');
+    });
+  }
   get paramsMaptiler() {
     return {
       key: process.env.MAPTILER_KEY,
@@ -96,6 +104,7 @@ class Busquedas {
     // Prevenir repeticiones del lugar
     if (this.historial.includes(lugar.toLocaleLowerCase())) return;
 
+    this.historial = this.historial.splice(0, 4);
     // Almacenar en Array
     this.historial.unshift(lugar.toLocaleLowerCase());
     // Guardar en DB o archivo de texto que actuará como DB
@@ -109,7 +118,15 @@ class Busquedas {
     fs.writeFileSync(this.dbPath, JSON.stringify(payload));
   }
 
-  leerDB() {}
+  async leerDB() {
+    if (!fs.existsSync(this.dbPath)) return;
+    const info = fs.readFileSync(this.dbPath, 'utf8');
+    const data = JSON.parse(info);
+    // console.log('data', data);
+    // console.log('data parser', JSON.parse(data));
+    // console.log('data parser historial', JSON.parse(data).historial);
+    this.historial = data.historial;
+  }
 }
 
 module.exports = Busquedas;
